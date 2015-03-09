@@ -9,6 +9,8 @@
 		<div id="content"><h1>Welcome</h1><p>Select any tool from the menu above</p></div>
 		<script type="text/javascript" src="js/pages.js"></script>
 		<script type="text/javascript">
+			var hashChangeEventExist=("onhashchange" in window);
+			
 			window.addEventListener("load",function () {
 				var linksID="#nav";
 				var nav = document.querySelector(linksID);
@@ -23,6 +25,7 @@
 						
 						link.href="#"+p.file;
 						link.textContent=p.name;
+						if (!hashChangeEventExist) link.onclick=loadHash;
 					}
 				});
 			},false);
@@ -34,7 +37,9 @@
 					});
 				}
 			}
-			window.addEventListener("hashchange",loadHash);
+			if (hashChangeEventExist) {
+				window.addEventListener("hashchange",loadHash);
+			}
 			loadHash();
 		</script>
 	</body>
