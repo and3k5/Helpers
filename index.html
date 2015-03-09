@@ -54,6 +54,10 @@
 				if (filename.length>0) {
 					Pages.reqPage(filename,function (html) {
 						document.querySelector("#content").innerHTML=html;
+						var scripts=document.querySelector("#content").querySelectorAll("script");
+						for (var i = 0,len=scripts.length;i<len;i++) {
+							eval(scripts[i].textContent)
+						}
 					});
 				}
 			}
