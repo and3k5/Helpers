@@ -1,2 +1,12 @@
 <h1>Color Converter</h1>
-<div><p>Stuff will be here some day</p></div>
+<p>Stuff will be here some day</p>
+<p>#<input type="text" id="hex"><button id="flipbtn">FLIP</button></p>
+<script type="text/javascript">
+console.log(document.querySelector("#flipbtn"));
+document.querySelector("#flipbtn").onclick=function () {
+	var hex=document.querySelector("#hex");
+		if (hex.value.length===6) {
+			hex.value=hex.value.substr(4,2)+hex.value.substr(2,2)+hex.value.substr(0,2);
+		}
+	}
+</script>
