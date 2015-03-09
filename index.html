@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Tools</title>
+	</head>
+	<body>
+		<nav id="nav"></nav>
+		<span id="controls"></span>
+		<div id="content"><h1>Welcome</h1><p>Select any tool from the menu above</p></div>
+		<script type="text/javascript" src="js/pages.js"></script>
+		<script type="text/javascript">
+			window.addEventListener("load",function () {
+				var linksID="#nav";
+				var nav = document.querySelector(linksID);
+				
+				var ctrlID="#controls";
+				var ctrl = document.querySelector(ctrlID);
+				
+				Pages.loadPages("pages.json",function (json) { 
+					for (var i=0,len=json.length;i<len;i++) {
+						var p=json[i];
+						var link=nav.appendChild(document.createElement("a"));
+						
+						link.href="#"+p.file;
+						link.textContent=p.name;
+					}
+				});
+			},false);
+			function loadHash() {
+				var filename=location.hash.substr(1);
+				if (filename.length>0) {
+					Pages.reqPage(filename,function (html) {
+						document.querySelector("#content").innerHTML=html;
+					});
+				}
+			}
+			window.addEventListener("hashchange",loadHash);
+			loadHash();
+		</script>
+	</body>
+</html>
