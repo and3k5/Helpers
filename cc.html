@@ -40,8 +40,14 @@ for (var i=0;i<inputs.length;i++) {
 	inputs[i].addEventListener("blur",blurEvent);
 }
 function updateAll(color) {
+	var rgb=color.RGB;
+	var hexv=color.HEX;
+	var lumi = 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
+	var textColor="white";
+	if (lumi>128) textColor="black";
 	for (var i=0;i<inputs.length;i++) {
-		inputs[i].style.backgroundColor="#"+color.HEX;
+		inputs[i].style.backgroundColor="#"+hexv;
+		inputs[i].style.color=textColor;
 	}
 }
 function changeEvent_rgb(e) {
