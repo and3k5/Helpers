@@ -117,8 +117,6 @@ function changeEvent_hsl(e) {
 	var color = new Color();
 	color.setHSL(h,s,l);
 	
-	console.log(color.RGB);
-	
 	if (color.RGB!=undefined) {
 		var rgbinputs = document.querySelectorAll("#r,#g,#b");
 		var rgb=color.RGB;
@@ -216,9 +214,9 @@ window.Color = function Color() {
 	
 	this.setHSL = function (_h,_s,_l) {
 		type=1;
-		h=parseFloat(_h);
-		s=parseFloat(_s);
-		l=parseFloat(_l);
+		h=parseFloat(_h)/360;
+		s=parseFloat(_s)/100;
+		l=parseFloat(_l)/100;
 	}
 	
 	this.setHEX = function (_hex) {
