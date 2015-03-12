@@ -1,13 +1,23 @@
 <h1>Color Converter</h1>
 <p>Stuff will be here some day</p>
-<div id="controls">
-	<p>#<input type="text" id="hex"><button id="flipbtn">FLIP</button></p>
-	<p><input type="number" id="r" min="0" max="255" value="0" step="1"><input type="number" id="g" min="0" max="255" value="0" step="1"><input type="number" id="b" min="0" max="255" value="0" step="1"></p>
-	<p><input type="number" id="h"><input type="number" id="s"><input type="number" id="l"></p>
+<style>
+#r,#g,#b,#h,#s,#l {
+	width:80px;
+}
+</style>
+<div id="controls" class="form-inline">
+	<p>
+		<div class="input-group">
+			<div class="input-group-addon">#</div>
+			<input type="text" class="form-control" id="hex" value="000000">
+		</div><button id="flipbtn" class="btn btn-default">FLIP</button>
+	</p>
+	<p><input type="number" class="form-control" id="r" min="0" max="255" value="0" step="1"><input type="number" class="form-control" id="g" min="0" max="255" value="0" step="1"><input type="number" class="form-control" id="b" min="0" max="255" value="0" step="1"></p>
+	<p><input type="number" class="form-control" id="h" min="0" max="360" value="0"><input type="number" class="form-control" id="s" min="0" max="100" value="0"><input type="number" class="form-control" id="l" min="0" max="100" value="0"></p>
 </div>
 <script type="text/javascript">
 // globals
-var inputs = document.querySelectorAll("#controls p input");
+var inputs = document.querySelectorAll("#controls input");
 
 function focusEvent(e) {
 	for (var i=0;i<inputs.length;i++) {
@@ -322,4 +332,9 @@ window.RGB2HEX = function RGB2HEX(rgb) {
 	}
 	return str;
 }
+
+
+var color=new Color();
+color.setRGB(0,0,0);
+updateAll(color);
 </script>
