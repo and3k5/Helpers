@@ -19,26 +19,6 @@
 // globals
 var inputs = document.querySelectorAll("#controls input");
 
-function focusEvent(e) {
-	for (var i=0;i<inputs.length;i++) {
-		if (inputs[i].parentElement!=e.target.parentElement) {
-			inputs[i].setAttribute("disabled","");
-		}else{
-			inputs[i].removeAttribute("disabled");
-		}
-	}
-}
-
-function blurEvent() {
-	for (var i=0;i<inputs.length;i++) {
-		inputs[i].removeAttribute("disabled");
-	}
-}
-
-for (var i=0;i<inputs.length;i++) {
-	inputs[i].addEventListener("focus",focusEvent);
-	inputs[i].addEventListener("blur",blurEvent);
-}
 function updateAll(color) {
 	var rgb=color.RGB;
 	var hexv=color.HEX;
