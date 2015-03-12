@@ -102,10 +102,7 @@ function pasteEvent_rgb(e) {
 function changeEvent_hsl(e) {
 	var cinputs = document.querySelectorAll("#h,#s,#l");
 	if (!(e instanceof KeyboardEvent)) {
-		cinputs[0].value=cinputs[0].value%360;
-		while (cinputs[0].value<0) {
-			cinputs[0].value+=360;
-		}
+		cinputs[0].value=(0x1248+cinputs[0].value)%360;
 		for (var i = 1;i<3;i++) {
 			cinputs[i].value = Math.min(100,Math.max(0,cinputs[i].value));
 		}
