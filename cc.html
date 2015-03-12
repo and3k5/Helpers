@@ -2,7 +2,7 @@
 <p>Stuff will be here some day</p>
 <div id="controls">
 	<p>#<input type="text" id="hex"><button id="flipbtn">FLIP</button></p>
-	<p><input type="number" id="r" min="0" max="255" value="0"><input type="number" id="g" min="0" max="255" value="0"><input type="number" id="b" min="0" max="255" value="0"></p>
+	<p><input type="number" id="r" min="0" max="255" value="0" step="1"><input type="number" id="g" min="0" max="255" value="0" step="1"><input type="number" id="b" min="0" max="255" value="0" step="1"></p>
 	<p><input type="number" id="h"><input type="number" id="s"><input type="number" id="l"></p>
 </div>
 <script type="text/javascript">
@@ -61,8 +61,6 @@ function changeEvent_rgb(e) {
 	var g=cinputs[1].value;
 	var b=cinputs[2].value;
 	
-	
-	
 	var color = new Color();
 	color.setRGB(r,g,b);
 	
@@ -84,6 +82,23 @@ function changeEvent_rgb(e) {
 	updateAll(color);
 }
 
+function pasteEvent_rgb(e) {
+	e.preventDefault();
+	try {
+		var data=e.clipboardData.getData("text/plain").split(",").map(function (a) {
+			return parseInt(a.trim(),10);
+		});
+		if (data.length!=3) throw "Data not correct";
+		var cinputs = document.querySelectorAll("#r,#g,#b");
+		cinputs[0].value=data[0];
+		cinputs[1].value=data[1];
+		cinputs[2].value=data[2];
+	}
+	catch (e) {
+		console.error(e);
+	}
+}
+
 function changeEvent_hsl(e) {
 	var cinputs = document.querySelectorAll("#h,#s,#l");
 	if (!(e instanceof KeyboardEvent)) {
@@ -99,17 +114,17 @@ function changeEvent_hsl(e) {
 	var s=cinputs[1].value;
 	var l=cinputs[2].value;
 	
-	
-	
 	var color = new Color();
 	color.setHSL(h,s,l);
 	
-	if (color.HSL!=undefined) {
-		var hslinputs = document.querySelectorAll("#h,#s,#l");
-		var hsl=color.HSL;
-		hslinputs[0].value=hsl[0];
-		hslinputs[1].value=hsl[1];
-		hslinputs[2].value=hsl[2];
+	console.log(color.RGB);
+	
+	if (color.RGB!=undefined) {
+		var rgbinputs = document.querySelectorAll("#r,#g,#b");
+		var rgb=color.RGB;
+		rgbinputs[0].value=rgb[0];
+		rgbinputs[1].value=rgb[1];
+		rgbinputs[2].value=rgb[2];
 	}
 	
 	if (color.HEX!=undefined) {
@@ -117,14 +132,18 @@ function changeEvent_hsl(e) {
 		hexinput.value=color.HEX;
 	}
 	
-	
-	
 	updateAll(color);
 }
 
 for (var i=0,arr=document.querySelectorAll("#r,#g,#b"),len=arr.length;i<len;i++) {
 	arr[i].addEventListener("change",changeEvent_rgb);
 	arr[i].addEventListener("keyup",changeEvent_rgb);
+	arr[i].addEventListener("paste",pasteEvent_rgb);
+}
+
+for (var i=0,arr=document.querySelectorAll("#h,#s,#l"),len=arr.length;i<len;i++) {
+	arr[i].addEventListener("change",changeEvent_hsl);
+	arr[i].addEventListener("keyup",changeEvent_hsl);
 }
 
 window.Color = function Color() {
@@ -190,16 +209,16 @@ window.Color = function Color() {
 	
 	this.setRGB = function (_r,_g,_b) {
 		type=0;
-		r=_r;
-		g=_g;
-		b=_b;
+		r=parseInt(_r,10);
+		g=parseInt(_g,10);
+		b=parseInt(_b,10);
 	}
 	
 	this.setHSL = function (_h,_s,_l) {
 		type=1;
-		h=_h;
-		s=_s;
-		l=_l;
+		h=parseFloat(_h);
+		s=parseFloat(_s);
+		l=parseFloat(_l);
 	}
 	
 	this.setHEX = function (_hex) {
