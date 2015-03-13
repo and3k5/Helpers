@@ -7,6 +7,9 @@
 </style>
 <div id="controls" class="form-inline">
 	<p>
+		<input id="colorinput" type="color">
+	</p>
+	<p>
 		<div class="input-group">
 			<div class="input-group-addon">#</div>
 			<input type="text" class="form-control" id="hex" value="000000">
@@ -118,11 +121,42 @@ function changeEvent_hsl(e) {
 	updateAll(color);
 }
 
+function changeEvent_cpicker(e) {
+	if (this.value.length == 7) {
+		var hex = this.value.substr(1);
+
+		var color = new Color();
+		color.setHEX(hex);
+
+		if (color.RGB != undefined) {
+			var rgbinputs = document.querySelectorAll("#r,#g,#b");
+			var rgb = color.RGB;
+			rgbinputs[0].value = rgb[0];
+			rgbinputs[1].value = rgb[1];
+			rgbinputs[2].value = rgb[2];
+		}
+
+		if (color.HSL != undefined) {
+			var hslinputs = document.querySelectorAll("#h,#s,#l");
+			var hsl = color.HSL;
+			hslinputs[0].value = hsl[0] * 360;
+			hslinputs[1].value = hsl[1] * 100;
+			hslinputs[2].value = hsl[2] * 100;
+		}
+
+		updateAll(color);
+	}
+	
+	//updateAll(color);
+}
+
 for (var i = 0, arr = document.querySelectorAll("#r,#g,#b"), len = arr.length; i < len; i++) {
 	arr[i].addEventListener("change", changeEvent_rgb);
 	arr[i].addEventListener("keyup", changeEvent_rgb);
 	arr[i].addEventListener("paste", pasteEvent_rgb);
 }
+
+document.querySelector("#colorinput").addEventListener("input", changeEvent_cpicker);
 
 for (var i = 0, arr = document.querySelectorAll("#h,#s,#l"), len = arr.length; i < len; i++) {
 	arr[i].addEventListener("change", changeEvent_hsl);
